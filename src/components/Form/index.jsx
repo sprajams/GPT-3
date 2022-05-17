@@ -50,10 +50,10 @@ function Form() {
         },
       ],
     };
-    // GET RESULT FROM API
+    // GET RESULT FROM API, NEWEST ON TOP
     setResults((curr) => {
       const newItem = { q: prompt, a: responseData.choices[0].text };
-      return [...curr, newItem];
+      return [newItem, ...curr];
     });
   };
 
