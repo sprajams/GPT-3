@@ -1,10 +1,8 @@
-import { useState } from "react";
-// import Button from "@mui/material/Button";
+import { useEffect, useState } from "react";
+import Button from "@mui/material/Button";
 import LoadingButton from "@mui/material/Button";
 import styles from "./styles.module.scss";
 // import { style } from "@mui/system";
-import CheckIcon from "@mui/icons-material/Check";
-import ToggleButton from "@mui/material/ToggleButton";
 
 function Form() {
   const [results, setResults] = useState([]);
@@ -26,6 +24,16 @@ function Form() {
     fetchData();
   };
 
+  useEffect(() => {
+    console.log("init ue");
+    setResults(JSON.parse(localStorage.getItem("savedResults")));
+  }, []);
+
+  useEffect(() => {
+    console.log("results ue");
+    localStorage.setItem("savedResults", JSON.stringify(results));
+  }, [results]);
+
   const fetchData = async () => {
     const data = {
       prompt,
@@ -36,17 +44,33 @@ function Form() {
       presence_penalty: 0.0,
     };
     //RETURN DATA INTO THE VARIABLE RESPONSEDATA
-    const responseData = await fetch(
-      "https://api.openai.com/v1/engines/text-curie-001/completions",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${process.env.REACT_APP_OPENAI_SECRET}`,
+    // const responseData = await fetch(
+    //   "https://api.openai.com/v1/engines/text-curie-001/completions",
+    //   {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       Authorization: `Bearer ${process.env.REACT_APP_OPENAI_SECRET}`,
+    //     },
+    //     body: JSON.stringify(data),
+    //   }
+    // ).then((res) => res.json());
+
+    // dummy data
+    const responseData = {
+      id: "cmpl-58yvEJpYF5h6atREgNUyt0Fo8UJS4",
+      object: "text_completion",
+      created: 1652822492,
+      model: "text-curie:001",
+      choices: [
+        {
+          text: "\nSunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday.",
+          index: 0,
+          logprobs: null,
+          finish_reason: "stop",
         },
-        body: JSON.stringify(data),
-      }
-    ).then((res) => res.json());
+      ],
+    };
 
     // GET RESULT FROM API, NEWEST ON TOP
     setResults((old) => {
@@ -62,7 +86,6 @@ function Form() {
       return [...newArr, ...old];
     });
   };
-  const [selected, setSelected] = useState(false);
 
   return (
     <div className={styles.outer}>
@@ -87,15 +110,7 @@ function Form() {
           >
             Submit
           </LoadingButton>
-          <ToggleButton
-            value="check"
-            selected={selected}
-            onChange={() => {
-              setSelected(!selected);
-            }}
-          >
-            <CheckIcon />
-          </ToggleButton>
+
           {/* < loading variant="outlined">
             Submit
           </LoadingButton> */}
