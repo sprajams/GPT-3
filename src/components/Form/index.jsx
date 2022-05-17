@@ -1,7 +1,10 @@
 import { useState } from "react";
-import Button from "@mui/material/Button";
+// import Button from "@mui/material/Button";
+import LoadingButton from "@mui/material/Button";
 import styles from "./styles.module.scss";
-import { style } from "@mui/system";
+// import { style } from "@mui/system";
+import CheckIcon from "@mui/icons-material/Check";
+import ToggleButton from "@mui/material/ToggleButton";
 
 function Form() {
   const [results, setResults] = useState([]);
@@ -9,7 +12,13 @@ function Form() {
 
   //  UPDATE PROMPT AS USER INPUTS PROMPT
   const handleChange = (event) => {
-    setPrompt(event.target.value);
+    //capitalize first letter of prompt
+    if (event.target.value) {
+      let toCapPrompt =
+        event.target.value[0].toUpperCase() +
+        event.target.value.slice(1).toLowerCase();
+      setPrompt(toCapPrompt);
+    }
   };
   //  WHEN USER SUBMITS FORM, SEND REQUEST TO API
   const handleSubmit = (event) => {
@@ -26,7 +35,7 @@ function Form() {
       frequency_penalty: 0.0,
       presence_penalty: 0.0,
     };
-
+    //RETURN DATA INTO THE VARIABLE RESPONSEDATA
     const responseData = await fetch(
       "https://api.openai.com/v1/engines/text-curie-001/completions",
       {
@@ -53,6 +62,7 @@ function Form() {
       return [...newArr, ...old];
     });
   };
+  const [selected, setSelected] = useState(false);
 
   return (
     <div className={styles.outer}>
@@ -62,24 +72,42 @@ function Form() {
           <textarea
             name="prompt"
             id="prompt"
-            className={styles.formInput}
+            className={styles.formTextArea}
             onChange={handleChange}
             rows="6"
             required
           ></textarea>
         </div>
         <div className={styles.buttonWrap}>
-          <Button variant="contained" type="submit" className={styles.button}>
+          <LoadingButton
+            loading
+            variant="contained"
+            type="submit"
+            className={styles.button}
+          >
             Submit
-          </Button>
+          </LoadingButton>
+          <ToggleButton
+            value="check"
+            selected={selected}
+            onChange={() => {
+              setSelected(!selected);
+            }}
+          >
+            <CheckIcon />
+          </ToggleButton>
+          {/* < loading variant="outlined">
+            Submit
+          </LoadingButton> */}
         </div>
       </form>
+      <h2>Responses</h2>
       <ul className={styles.resultContainer}>
         {results.map((result) => {
           return (
             <li key={result.id} className={styles.resultWrap}>
-              <div>Prompt:{result.q}</div>
-              <div>Response:{result.a}</div>
+              <div className={styles.prompt}>Prompt: {result.q}</div>
+              <div>Response: {result.a}</div>
             </li>
           );
         })}
