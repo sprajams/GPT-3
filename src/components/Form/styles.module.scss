@@ -4,13 +4,37 @@
   justify-content: center;
   align-items: center;
 }
+//forn container
 .form {
   display: flex;
   flex-direction: column;
   width: 100%;
   max-width: 750px;
 }
-
+.promptWrap {
+  margin: 10px auto;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
 .formInput {
   padding: 10px;
+}
+//button
+.buttonWrap {
+  display: flex;
+  justify-content: flex-end;
+}
+.button {
+  width: 100px;
+  padding: 10px;
+  margin: 10px auto;
+}
+//result list
+.resultContainer {
+  margin: -5px auto;
+}
+.resultWrap {
+  background: rgb(166, 166, 166);
+  margin: 5px auto;
 }

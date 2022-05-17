@@ -1,5 +1,7 @@
 import { useState } from "react";
+import Button from "@mui/material/Button";
 import styles from "./styles.module.scss";
+import { style } from "@mui/system";
 
 function Form() {
   const [results, setResults] = useState([]);
@@ -55,22 +57,29 @@ function Form() {
   return (
     <div className={styles.outer}>
       <form className={styles.form} onSubmit={handleSubmit}>
-        <label htmlFor="prompt">Enter prompt:</label>
-        <textarea
-          name="prompt"
-          id="prompt"
-          className={styles.formInput}
-          onChange={handleChange}
-          required
-        ></textarea>
-        <button type="submit">Submit</button>
+        <div className={styles.promptWrap}>
+          <label htmlFor="prompt">Enter prompt:</label>
+          <textarea
+            name="prompt"
+            id="prompt"
+            className={styles.formInput}
+            onChange={handleChange}
+            rows="6"
+            required
+          ></textarea>
+        </div>
+        <div className={styles.buttonWrap}>
+          <Button variant="contained" type="submit" className={styles.button}>
+            Submit
+          </Button>
+        </div>
       </form>
-      <ul>
+      <ul className={styles.resultContainer}>
         {results.map((result) => {
           return (
-            <li key={result.id}>
+            <li key={result.id} className={styles.resultWrap}>
               <div>Prompt:{result.q}</div>
-              <div>Answer:{result.a}</div>
+              <div>Response:{result.a}</div>
             </li>
           );
         })}

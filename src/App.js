@@ -1,9 +1,9 @@
 import Form from "./components/Form";
-import "./App.css";
+import "./App.scss";
 
 function App() {
   return (
-    <div>
+    <div className="main">
       <h1>GPT-3</h1>
       <Form />
     </div>
