@@ -87,6 +87,12 @@ function Form() {
     });
   };
 
+  // clear response histry aka clear localStorage
+  const onClick = () => {
+    console.log("clear history pls");
+    // localStorage.removeItem("savedResults");
+  };
+
   return (
     <div className={styles.outer}>
       <form className={styles.form} onSubmit={handleSubmit}>
@@ -127,6 +133,19 @@ function Form() {
           );
         })}
       </ul>
+
+      {results.length > 0 ? (
+        <div className={styles.buttonWrap}>
+          <Button
+            variant="outlined"
+            color="error"
+            className={styles.button}
+            onClick={onClick}
+          >
+            Clear
+          </Button>
+        </div>
+      ) : null}
     </div>
   );
 }
