@@ -43,17 +43,38 @@ function Form() {
       model: "text-curie:001",
       choices: [
         {
-          text: "\n\nThere are seven days in a week.",
+          text: "\n\nMonday",
           index: 0,
+          logprobs: null,
+          finish_reason: "stop",
+        },
+        {
+          text: "\n\nTuesday",
+          index: 1,
           logprobs: null,
           finish_reason: "stop",
         },
       ],
     };
+
+    // let totalChoice = [];
+    // GET ALL AVAILABLE CHOICES PER PROMPT
+    // responseData.choices.map((choice) => {
+    //   return totalChoice.push(choice.text);
+    // });
+    // console.log(totalChoice);
     // GET RESULT FROM API, NEWEST ON TOP
-    setResults((curr) => {
-      const newItem = { q: prompt, a: responseData.choices[0].text };
-      return [newItem, ...curr];
+    setResults((old) => {
+      //   const newItem = { q: prompt, a: totalChoice };
+      const newArr = responseData.choices.map((choice) => {
+        return {
+          q: prompt,
+          a: choice.text,
+          id: `${responseData.id} - ${choice.index}`,
+        };
+      });
+
+      return [...newArr, ...old];
     });
   };
 
@@ -74,7 +95,7 @@ function Form() {
       </form>
       {results.map((result) => {
         return (
-          <div>
+          <div key={result.id}>
             <div>Prompt:{result.q}</div>
             <div>Answer:{result.a}</div>
           </div>
