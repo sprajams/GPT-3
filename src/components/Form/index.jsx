@@ -26,24 +26,22 @@ function Form() {
   };
 
   useEffect(() => {
-    console.log("init ue");
     setResults(JSON.parse(localStorage.getItem("savedResults")));
   }, []);
 
   useEffect(() => {
-    console.log("results ue");
     localStorage.setItem("savedResults", JSON.stringify(results));
   }, [results]);
 
   const fetchData = async () => {
-    const data = {
-      prompt,
-      temperature: 0.5,
-      max_tokens: 64,
-      top_p: 1.0,
-      frequency_penalty: 0.0,
-      presence_penalty: 0.0,
-    };
+    // const data = {
+    //   prompt,
+    //   temperature: 0.5,
+    //   max_tokens: 64,
+    //   top_p: 1.0,
+    //   frequency_penalty: 0.0,
+    //   presence_penalty: 0.0,
+    // };
     //RETURN DATA INTO THE VARIABLE RESPONSEDATA
     // const responseData = await fetch(
     //   "https://api.openai.com/v1/engines/text-curie-001/completions",
@@ -89,21 +87,21 @@ function Form() {
   };
 
   //OPEN MODAL USING CLEAR BUTTON
-  const [open, setOpen] = useState(false);
-  const handleModal = () => {
-    setOpen(true);
-  };
 
   // CLEAR RESPONSE HSTORY FROM LOCALSTORAGE WHEN USER CONFIRMS YES ON MODAL
   const [remove, setRemove] = useState(false);
   useEffect(() => {
     // IF REMOVE IS TRUE, USE CONFIRMS YES TO DELETE, THEN LOCALSTORAGE IS CLEARED AND RESULTS RESET
     if (remove) {
-      localStorage.removeItem("savedResults");
-      setResults([]);
     } else if (!remove) {
     }
-  }, [remove]);
+  }, [remove, setRemove]);
+
+  const removeResults = () => {
+    localStorage.removeItem("savedResults");
+    setResults([]);
+    setRemove(false);
+  };
 
   return (
     <div className={styles.outer}>
@@ -142,14 +140,9 @@ function Form() {
           );
         })}
       </ul>
-
-      <Clear
-        results={results}
-        setOpen={setOpen}
-        open={open}
-        setRemove={setRemove}
-        onClick={handleModal}
-      />
+      {results.length > 0 ? (
+        <Clear setRemove={setRemove} removeResults={removeResults} />
+      ) : null}
     </div>
   );
 }

@@ -4,16 +4,21 @@ import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import styles from "./styles.module.scss";
 
-function PopUp({ setRemove, open, setOpen }) {
+function PopUp({ setRemove, open, setOpen, removeResults }) {
   // CLOSE MODAL
   const handleClose = () => setOpen(false);
 
   return (
     <div>
-      <Modal open={open} onClose={handleClose}>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
         <Box className={styles.box}>
           <div className={styles.boxInner}>
-            <div>
+            <div id="modal-modal-description">
               Are you sure you want to clear your response history? No take
               backs.
             </div>
@@ -22,7 +27,7 @@ function PopUp({ setRemove, open, setOpen }) {
                 color="error"
                 variant="outlined"
                 onClick={() => {
-                  setRemove(true);
+                  removeResults();
                   handleClose();
                 }}
               >
