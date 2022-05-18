@@ -1,10 +1,14 @@
+import Info from "./components/Info";
 import Form from "./components/Form";
 import "./App.scss";
 
 function App() {
   return (
     <div className="main">
-      <h1>GPT-3</h1>
+      <div className="titleWrap">
+        <h1>GPT-3</h1>
+        <Info />
+      </div>
       <Form />
     </div>
   );

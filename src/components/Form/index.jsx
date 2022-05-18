@@ -9,13 +9,7 @@ function Form() {
 
   //  UPDATE PROMPT AS USER INPUTS PROMPT
   const handleChange = (event) => {
-    //capitalize first letter of prompt
-    if (event.target.value) {
-      let toCapPrompt =
-        event.target.value[0].toUpperCase() +
-        event.target.value.slice(1).toLowerCase();
-      setPrompt(toCapPrompt);
-    }
+    setPrompt(event.target.value);
   };
   //  WHEN USER SUBMITS FORM, SEND REQUEST TO API
   const handleSubmit = (event) => {
@@ -33,49 +27,51 @@ function Form() {
   }, [results]);
 
   const fetchData = async () => {
-    // const data = {
-    //   prompt,
-    //   temperature: 0.5,
-    //   max_tokens: 64,
-    //   top_p: 1.0,
-    //   frequency_penalty: 0.0,
-    //   presence_penalty: 0.0,
-    // };
-    //RETURN DATA INTO THE VARIABLE RESPONSEDATA
-    // const responseData = await fetch(
-    //   "https://api.openai.com/v1/engines/text-curie-001/completions",
-    //   {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       Authorization: `Bearer ${process.env.REACT_APP_OPENAI_SECRET}`,
-    //     },
-    //     body: JSON.stringify(data),
-    //   }
-    // ).then((res) => res.json());
+    const data = {
+      prompt,
+      temperature: 0.5,
+      max_tokens: 64,
+      top_p: 1.0,
+      frequency_penalty: 0.0,
+      presence_penalty: 0.0,
+    };
+    // RETURN DATA INTO THE VARIABLE RESPONSEDATA
+    const responseData = await fetch(
+      "https://api.openai.com/v1/engines/text-curie-001/completions",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${process.env.REACT_APP_OPENAI_SECRET}`,
+        },
+        body: JSON.stringify(data),
+      }
+    ).then((res) => res.json());
 
     // dummy data
-    const responseData = {
-      id: "cmpl-58yvEJpYF5h6atREgNUyt0Fo8UJS4",
-      object: "text_completion",
-      created: 1652822492,
-      model: "text-curie:001",
-      choices: [
-        {
-          text: "\nSunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday.",
-          index: 0,
-          logprobs: null,
-          finish_reason: "stop",
-        },
-      ],
-    };
+    // const responseData = {
+    //   id: "cmpl-58yvEJpYF5h6atREgNUyt0Fo8UJS4",
+    //   object: "text_completion",
+    //   created: 1652822492,
+    //   model: "text-curie:001",
+    //   choices: [
+    //     {
+    //       text: "\nSunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday.",
+    //       index: 0,
+    //       logprobs: null,
+    //       finish_reason: "stop",
+    //     },
+    //   ],
+    // };
 
     // GET RESULT FROM API, NEWEST ON TOP
     setResults((old) => {
+      //capitalize first letter of prompt
+      let toCapPrompt = prompt[0].toUpperCase() + prompt.slice(1).toLowerCase();
       // MAP CHOICES TO Q & A OBJECTS
       const newArr = responseData.choices.map((choice) => {
         return {
-          q: prompt,
+          q: toCapPrompt,
           a: choice.text,
           id: `${responseData.id} - ${choice.index}`,
         };

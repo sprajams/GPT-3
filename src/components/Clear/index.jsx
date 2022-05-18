@@ -10,7 +10,13 @@ function Clear({ removeResults }) {
   };
   return (
     <div>
-      <PopUp setOpen={setOpen} open={open} removeResults={removeResults} />
+      <PopUp
+        setState={setOpen}
+        state={open}
+        removeResults={removeResults}
+        description={`Are you sure you want to clear your response history? No take
+      backs.`}
+      />
 
       <div className={styles.buttonWrap}>
         <Button
