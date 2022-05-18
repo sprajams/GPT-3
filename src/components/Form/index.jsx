@@ -48,22 +48,6 @@ function Form() {
       }
     ).then((res) => res.json());
 
-    // dummy data
-    // const responseData = {
-    //   id: "cmpl-58yvEJpYF5h6atREgNUyt0Fo8UJS4",
-    //   object: "text_completion",
-    //   created: 1652822492,
-    //   model: "text-curie:001",
-    //   choices: [
-    //     {
-    //       text: "\nSunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday.",
-    //       index: 0,
-    //       logprobs: null,
-    //       finish_reason: "stop",
-    //     },
-    //   ],
-    // };
-
     // GET RESULT FROM API, NEWEST ON TOP
     setResults((old) => {
       //capitalize first letter of prompt
@@ -87,6 +71,9 @@ function Form() {
     setResults([]);
   };
 
+  // BUTTON LOADING
+  const [loading, setLoading] = useState(false);
+
   return (
     <div className={styles.outer}>
       <form className={styles.form} onSubmit={handleSubmit}>
@@ -104,9 +91,13 @@ function Form() {
         </div>
         <div className={styles.buttonWrap}>
           <LoadingButton
-            loading="true"
+            loading={loading}
+            onClick={() => {
+              setLoading(true);
+            }}
             variant="contained"
             type="submit"
+            loadingIndicator="Loading..."
             className={styles.button}
           >
             Submit
