@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import Button from "@mui/material/Button";
 import LoadingButton from "@mui/material/Button";
+import Clear from "../Clear";
 import styles from "./styles.module.scss";
+
 // import { style } from "@mui/system";
 
 function Form() {
@@ -87,11 +88,22 @@ function Form() {
     });
   };
 
-  // clear response histry aka clear localStorage
-  const onClick = () => {
-    console.log("clear history pls");
-    // localStorage.removeItem("savedResults");
+  //OPEN MODAL USING CLEAR BUTTON
+  const [open, setOpen] = useState(false);
+  const handleModal = () => {
+    setOpen(true);
   };
+
+  // CLEAR RESPONSE HSTORY FROM LOCALSTORAGE WHEN USER CONFIRMS YES ON MODAL
+  const [remove, setRemove] = useState(false);
+  useEffect(() => {
+    // IF REMOVE IS TRUE, USE CONFIRMS YES TO DELETE, THEN LOCALSTORAGE IS CLEARED AND RESULTS RESET
+    if (remove) {
+      localStorage.removeItem("savedResults");
+      setResults([]);
+    } else if (!remove) {
+    }
+  }, [remove]);
 
   return (
     <div className={styles.outer}>
@@ -109,19 +121,16 @@ function Form() {
         </div>
         <div className={styles.buttonWrap}>
           <LoadingButton
-            loading
+            loading="true"
             variant="contained"
             type="submit"
             className={styles.button}
           >
             Submit
           </LoadingButton>
-
-          {/* < loading variant="outlined">
-            Submit
-          </LoadingButton> */}
         </div>
       </form>
+
       <h2>Responses</h2>
       <ul className={styles.resultContainer}>
         {results.map((result) => {
@@ -134,18 +143,13 @@ function Form() {
         })}
       </ul>
 
-      {results.length > 0 ? (
-        <div className={styles.buttonWrap}>
-          <Button
-            variant="outlined"
-            color="error"
-            className={styles.button}
-            onClick={onClick}
-          >
-            Clear
-          </Button>
-        </div>
-      ) : null}
+      <Clear
+        results={results}
+        setOpen={setOpen}
+        open={open}
+        setRemove={setRemove}
+        onClick={handleModal}
+      />
     </div>
   );
 }
