@@ -21,6 +21,7 @@ function Form() {
   const handleSubmit = (event) => {
     event.preventDefault();
     fetchData();
+    setPrompt("");
   };
 
   useEffect(() => {
@@ -99,6 +100,7 @@ function Form() {
             name="prompt"
             id="prompt"
             className={styles.formTextArea}
+            value={prompt}
             onChange={handleChange}
             rows="6"
             required
