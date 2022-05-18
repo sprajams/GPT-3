@@ -36,8 +36,6 @@ function PopUp({ setRemove, open, setOpen, removeResults }) {
               <Button
                 variant="outlined"
                 onClick={() => {
-                  console.log("no");
-                  setRemove(false);
                   handleClose();
                 }}
               >

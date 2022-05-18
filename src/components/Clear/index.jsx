@@ -3,19 +3,14 @@ import PopUp from "../PopUp";
 import Button from "@mui/material/Button";
 import styles from "./styles.module.scss";
 
-function Clear({ setRemove, removeResults }) {
+function Clear({ removeResults }) {
   const [open, setOpen] = useState(false);
   const onClick = () => {
     setOpen(true);
   };
   return (
     <div>
-      <PopUp
-        setOpen={setOpen}
-        open={open}
-        setRemove={setRemove}
-        removeResults={removeResults}
-      />
+      <PopUp setOpen={setOpen} open={open} removeResults={removeResults} />
 
       <div className={styles.buttonWrap}>
         <Button

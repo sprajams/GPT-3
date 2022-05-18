@@ -3,8 +3,6 @@ import LoadingButton from "@mui/material/Button";
 import Clear from "../Clear";
 import styles from "./styles.module.scss";
 
-// import { style } from "@mui/system";
-
 function Form() {
   const [results, setResults] = useState([]);
   const [prompt, setPrompt] = useState("");
@@ -86,21 +84,10 @@ function Form() {
     });
   };
 
-  //OPEN MODAL USING CLEAR BUTTON
-
   // CLEAR RESPONSE HSTORY FROM LOCALSTORAGE WHEN USER CONFIRMS YES ON MODAL
-  const [remove, setRemove] = useState(false);
-  useEffect(() => {
-    // IF REMOVE IS TRUE, USE CONFIRMS YES TO DELETE, THEN LOCALSTORAGE IS CLEARED AND RESULTS RESET
-    if (remove) {
-    } else if (!remove) {
-    }
-  }, [remove, setRemove]);
-
   const removeResults = () => {
     localStorage.removeItem("savedResults");
     setResults([]);
-    setRemove(false);
   };
 
   return (
@@ -140,9 +127,7 @@ function Form() {
           );
         })}
       </ul>
-      {results.length > 0 ? (
-        <Clear setRemove={setRemove} removeResults={removeResults} />
-      ) : null}
+      {results.length > 0 ? <Clear removeResults={removeResults} /> : null}
     </div>
   );
 }
