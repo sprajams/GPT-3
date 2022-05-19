@@ -1,4 +1,7 @@
-# Getting Started with Create React App
+# Getting Started with gpt-3-fun
+
+This project was made as a challenge for Shopify's internship challenge. 
+P.S. Please also refresh the page to see what happens!
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
